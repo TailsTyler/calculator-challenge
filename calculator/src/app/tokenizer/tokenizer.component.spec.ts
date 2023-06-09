@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TokenizerComponent } from './tokenizer.component';
+import { Add_Token, Num_Token, tokenize } from './tokenizer.service';
 
 describe('TokenizerComponent', () => {
   let component: TokenizerComponent;
@@ -22,4 +22,6 @@ describe('TokenizerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
 });
