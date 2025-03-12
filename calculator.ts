@@ -59,7 +59,7 @@ function tokenize (math_expression : string) : Token[] {
     return tokens;
 }
 
-alert(tokenize(" "))
+//alert(tokenize(" "))
 
 
 
