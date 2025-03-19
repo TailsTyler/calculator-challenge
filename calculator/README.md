@@ -1,3 +1,14 @@
+my notes on how to run: go to folder with
+    angular.jason 
+    and run
+    ng serve
+    if it doesn't work, run
+    npm install
+
+    tokenizer.component.html is where the the website text is
+
+
+
 # Calculator
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.0.
