@@ -23,6 +23,7 @@ export abstract class Binary_Operator_Node extends Node{
     right_child?:Node;
     apply_precedence():Binary_Operator_Node {
         //? let's say there's a - to your left. that needs to happen to you first, so
+        console.log("\nthis.left_child!: ", this.left_child!);
         if (this.left_child!.precedence > this.precedence){
             let heir = (this.left_child as Binary_Operator_Node)!;
             let future_right_child:Binary_Operator_Node = this!;
@@ -136,7 +137,7 @@ export function lex0 (tokens : Token[]) : Node {
             console.log(tokens_again[i], " is a Num_Token");
             let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
             if (wl.length == 0){
-                wl.push(i_as_node)
+                wl.push(i_as_node);
             } else if (wl[-1] instanceof Binary_Operator_Node){
                 if (wl.length >= 2 && wl[-2].complete_expression){
                     let temp = wl.pop()!;
@@ -148,11 +149,16 @@ export function lex0 (tokens : Token[]) : Node {
                     (temp as Binary_Operator_Node).apply_precedence();
                     console.log("\ntemp after apply precedence: ", temp);
                 }
+                else{
+                    console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
+                }
             } else if (wl[-1] instanceof Unary_Operator_Node){
                 wl.push(i_as_node);
             }
             else{ //is num... 2 nums adjacent is bad
-                console.log("Why are 2 nums next to each other?")
+                //erik how do i not reach this for 1+2
+                console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
+                    "\n here is the i_as_node: ", i_as_node);
             }
         }
         else if (tokens_again[i] instanceof Closing_Token){
