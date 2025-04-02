@@ -22,6 +22,7 @@ export abstract class Binary_Operator_Node extends Node{
     left_child?:Node;
     right_child?:Node;
     apply_precedence():Binary_Operator_Node {
+        //? let's say there's a - to your left. that needs to happen to you first, so
         if (this.left_child!.precedence > this.precedence){
             let heir = (this.left_child as Binary_Operator_Node)!;
             let future_right_child:Binary_Operator_Node = this!;
@@ -65,14 +66,16 @@ export class Sub_Node extends Binary_Operator_Node{
 
 
 
-
+//the lexer is the smoosher
 export function lex (tokens : Token[]) : Node {
     let tokens_again = tokens;
     let wl:Node[] = [] //working_list_of_nodes_that_finna_smoosh;
     for (let i:number = 0; i < tokens_again.length; i++) {
         if (tokens_again[i] instanceof Num_Token) {
+            console.log(tokens_again[i], " is a Num_Token");
             let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
             if (wl.length == 0){
+                //if all we have is one num, return it
                 wl.push(i_as_node)
             } else if (wl[-1] instanceof Binary_Operator_Node){
                 if (wl.length >= 2 && wl[-2].complete_expression){
