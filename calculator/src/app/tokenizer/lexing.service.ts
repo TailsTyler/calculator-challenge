@@ -150,13 +150,13 @@ export function lex0 (tokens : Token[]) : Node {
                     console.log("\ntemp after apply precedence: ", temp);
                 }
                 else{
+                    //erik how do i not reach this for 1+2
                     console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
                 }
             } else if (wl[-1] instanceof Unary_Operator_Node){
                 wl.push(i_as_node);
             }
             else{ //is num... 2 nums adjacent is bad
-                //erik how do i not reach this for 1+2
                 console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
                     "\n here is the i_as_node: ", i_as_node);
             }
