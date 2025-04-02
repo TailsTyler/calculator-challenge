@@ -121,15 +121,10 @@ export function lex (tokens : Token[]) : Node {
                 wl.push(new Trig_Node()); 
             } else if (tokens_again[i] instanceof Opening_Token) {
                 wl.push(new Paren_Node()); 
-            } 
-        }    
+            }
+        }
     }
     return wl[0];
 }
-    
 
-/*
-
-                
-*/
 
