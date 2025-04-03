@@ -160,14 +160,13 @@ export function lex (tokens : Token[]) : Node {
     return wl[0];
 }
 
-//the lexer is the smoosher
+//tockens to ast
 //trying to mod it myself
 export function lex0 (tokens : Token[]) : Node {
     let tokens_again = tokens;
     let wl:Node[] = []; //working_list_of_nodes_that_finna_smoosh;
     for (let i:number = 0; i < tokens_again.length; i++) {
         if (tokens_again[i] instanceof Num_Token) {
-            console.log(tokens_again[i], " is a Num_Token");
             let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
             if (wl.length == 0){
                 wl.push(i_as_node);
@@ -209,7 +208,18 @@ export function lex0 (tokens : Token[]) : Node {
         }
         else{
             if (tokens_again[i] instanceof Sub_Token) {
-                wl.push(new Neg_Node()); //bc wl len is 0 so start so must be neg not sub
+                //the lexer must identify Sub_Tokens as either sub notes or neg nodes
+                //if there is a complete expression to the left, it's a sub
+                //eg (complex but complete expression)-1
+                if(wl[0] && wl[wl.length - 1] instanceof Num_Node){
+                    wl.push(new Sub_Node()); 
+                    continue;
+                }
+                //if there is not, it's a neg
+                //eg 2^-1 = .5, 1--1 = 2, 1+-1 = 0
+                //and if there is nothing to the left, it's a neg
+                //eg -1+2 = 1
+                wl.push(new Neg_Node()); 
             } else if (tokens_again[i] instanceof Add_Token) {
                 wl.push(new Add_Node()); 
             } else if (tokens_again[i] instanceof Mul_Token) {
