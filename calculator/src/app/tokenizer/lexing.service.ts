@@ -149,8 +149,8 @@ export function lex (tokens : Token[]) : Node {
                 wl.push(new Div_Node()); 
             } else if (tokens_again[i] instanceof Exp_Token) {
                 wl.push(new Exp_Node()); 
-            } else if (tokens_again[i] instanceof Trig_Token) {
-                wl.push(new Trig_Node()); 
+            // } else if (tokens_again[i] instanceof Trig_Token) {
+            //     wl.push(new Trig_Node()); 
             } else if (tokens_again[i] instanceof Opening_Token) {
                 wl.push(new Paren_Node()); 
             }
