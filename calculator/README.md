@@ -1,9 +1,12 @@
 my notes on how to run: go to folder with
-    angular.jason 
+    angular.json 
     and run
     ng serve
     if it doesn't work, run
     npm install
+    or try
+    npx ng serve
+
 
     tokenizer.component.html is where the the website text is
     tokenize() defined calculator/src/app/tokenizer/tokenizer.service.ts

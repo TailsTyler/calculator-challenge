@@ -15,6 +15,7 @@ export class Num_Token extends Token {
     }
 }
 
+//identify chars as symbols
 export function tokenize (math_expression : string) : Token[] {
     let tokens : Token[] = []
     let number_expression : RegExp = new RegExp('^\\d+(\\.\\d+)?');
