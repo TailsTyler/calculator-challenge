@@ -4,6 +4,7 @@ export abstract class Node{
     abstract precedence:number;
     complete_expression = false;
     abstract eval():Num_Node; 
+    //display():null;
 }
 export class Num_Node extends Node{
     precedence:number = 0;
@@ -24,8 +25,8 @@ export abstract class Unary_Operator_Node extends Node{
 export abstract class Binary_Operator_Node extends Node{
     left_child?:Node;
     right_child?:Node;
+    //decide who the children are of a bin node
     apply_precedence():Binary_Operator_Node {
-        //? let's say there's a - to your left. that needs to happen to you first, so
         console.log("\nthis.left_child!: ", this.left_child!);
         if (this.left_child!.precedence > this.precedence){
             let heir = (this.left_child as Binary_Operator_Node)!;
@@ -63,7 +64,7 @@ export class Exp_Node extends Binary_Operator_Node{
     eval():Num_Node{
         let base = this.left_child!.eval();
         let exp = this.right_child!.eval();
-        return new Num_Node(base.value ^ exp.value);
+        return new Num_Node(Math.pow(base.value, exp.value));
     }
 }
 export class Mul_Node extends Binary_Operator_Node{ 
