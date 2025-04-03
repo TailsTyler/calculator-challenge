@@ -16,12 +16,9 @@ export class TokenizerComponent implements OnInit {
   }
 
   
-  
-  
-
   calculate(math_expression:string){
     this.value = tokenize(math_expression);
-    console.log(this.value);
+    //console.log(this.value);
   }
 
 }

@@ -6,6 +6,10 @@ my notes on how to run: go to folder with
     npm install
 
     tokenizer.component.html is where the the website text is
+    tokenize() defined calculator/src/app/tokenizer/tokenizer.service.ts
+    also calculator.ts
+
+    calculate() defined in calculator-challenge/calculator/src/app/tokenizer/tokenizer.component.ts
 
 
 
