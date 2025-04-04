@@ -100,71 +100,10 @@ export class Sub_Node extends Binary_Operator_Node{
     }
 }
 
-//the lexer is the smoosher
-export function lex (tokens : Token[]) : Node {
-    let tokens_again = tokens;
-    let wl:Node[] = [] //working_list_of_nodes_that_finna_smoosh;
-    for (let i:number = 0; i < tokens_again.length; i++) {
-        if (tokens_again[i] instanceof Num_Token) {
-            console.log(tokens_again[i], " is a Num_Token");
-            let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
-            if (wl.length == 0){
-                wl.push(i_as_node)
-            } else if (wl[wl.length-1] instanceof Binary_Operator_Node){
-                if (wl.length >= 2 && wl[wl.length-2].complete_expression){
-                    let temp = wl.pop()!;
-                    (temp as Binary_Operator_Node).left_child = wl.pop();
-                    (temp as Binary_Operator_Node).right_child = i_as_node;
-                    temp.complete_expression = true;
-                    wl.push(temp);
-                    (temp as Binary_Operator_Node).apply_precedence();
-                }
-            } else if (wl[wl.length-1] instanceof Unary_Operator_Node){
-                wl.push(i_as_node);
-            }
-            else{ //is num... 2 nums adjacent is bad
-                console.log("Why are 2 nums next to each other?")
-            }
-        }
-        else if (tokens_again[i] instanceof Closing_Token){
-            let should_be_a_complete_expression = wl.pop();
-            let should_be_a_opener = wl.pop();
-            if (should_be_a_complete_expression?.complete_expression && should_be_a_opener instanceof Paren_Node) {
-                let to_push = should_be_a_opener;
-                to_push.only_child = should_be_a_complete_expression;
-                to_push.complete_expression = true;
-                wl.push(to_push);
-            }
-            else {
-                console.log('Error on ")"');
-            }
-        }
-        else{
-            if (tokens_again[i] instanceof Sub_Token) {
-                wl.push(new Neg_Node()); //bc wl len is 0 so start so must be neg not sub
-            } else if (tokens_again[i] instanceof Add_Token) {
-                wl.push(new Add_Node()); 
-            } else if (tokens_again[i] instanceof Mul_Token) {
-                wl.push(new Mul_Node()); 
-            } else if (tokens_again[i] instanceof Div_Token) {
-                wl.push(new Div_Node()); 
-            } else if (tokens_again[i] instanceof Exp_Token) {
-                wl.push(new Exp_Node()); 
-            // } else if (tokens_again[i] instanceof Trig_Token) {
-            //     wl.push(new Trig_Node()); 
-            } else if (tokens_again[i] instanceof Opening_Token) {
-                wl.push(new Paren_Node()); 
-            }
-        }
-    }
-    return wl[0];
-}
-
-//tockens to ast
-//trying to mod it myself
+//tokens to ast
 export function lex0 (tokens : Token[]) : Node {
     let tokens_again = tokens;
-    let wl:Node[] = []; //working_list_of_nodes_that_finna_smoosh;
+    let wl:Node[] = [];
     for (let i:number = 0; i < tokens_again.length; i++) {
         if (tokens_again[i] instanceof Num_Token) {
             let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
@@ -185,6 +124,9 @@ export function lex0 (tokens : Token[]) : Node {
                     //erik how do i not reach this for 1+2
                     console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
                 }
+            } else if (wl[wl.length-1] instanceof Neg_Node){
+                (wl[wl.length-1] as Neg_Node).only_child = i_as_node;
+
             } else if (wl[wl.length-1] instanceof Unary_Operator_Node){
                 wl.push(i_as_node);
             }
@@ -201,6 +143,21 @@ export function lex0 (tokens : Token[]) : Node {
                 to_push.only_child = should_be_a_complete_expression;
                 to_push.complete_expression = true;
                 wl.push(to_push);
+                //eg 1+(1) is not 1+1 in the wl; must consolidate the +
+                if(wl.length > 1){
+                    for (let i:number = 0; i < wl.length; i++){
+                        if(wl[i] instanceof Binary_Operator_Node && !wl[i].complete_expression){
+                            (wl[i] as Binary_Operator_Node).left_child = wl[i-1];
+                            (wl[i] as Binary_Operator_Node).right_child = wl[i+1];
+                            //remove the left child from wl
+                            wl.splice(i - 1, 1);
+                            //consider how the indecies change
+                            i -= 1;
+                            //remove the right child for wl
+                            wl.splice(i + 1, 1);
+                        }
+                    }
+                }
             }
             else {
                 console.log('Error on ")"');
@@ -208,10 +165,10 @@ export function lex0 (tokens : Token[]) : Node {
         }
         else{
             if (tokens_again[i] instanceof Sub_Token) {
-                //the lexer must identify Sub_Tokens as either sub notes or neg nodes
+                //the lexer must identify Sub_Tokens as either actual sub nodes, or, instead, as neg nodes
                 //if there is a complete expression to the left, it's a sub
                 //eg (complex but complete expression)-1
-                if(wl[0] && wl[wl.length - 1] instanceof Num_Node){
+                if(wl[0] && wl[wl.length - 1].complete_expression){
                     wl.push(new Sub_Node()); 
                     continue;
                 }

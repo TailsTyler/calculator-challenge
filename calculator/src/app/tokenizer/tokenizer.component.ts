@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { tokenize } from './tokenizer.service';
-import { lex, lex0, Num_Node } from './lexing.service';
+import { lex0, Num_Node } from './lexing.service';
 import { UnaryOperator } from '@angular/compiler';
 
 @Component({
