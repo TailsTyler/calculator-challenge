@@ -35,7 +35,7 @@ export function tokenize (math_expression : string) : Token[] {
             tokens.push(new Add_Token);
             math_expression = math_expression.substring(1);
         } else if (math_expression[0] == "-"){
-            //ig there should be no Neg_token bc ig only the lexer knows whether something to the left of a '-' is a complete expression 
+            //ig there should be no Neg_token bc ig only the lexer knows whether something to the left of a '-' is a complete expression    
             tokens.push(new Sub_Token);
             math_expression = math_expression.substring(1);
         } else if (math_expression[0] == "*"){

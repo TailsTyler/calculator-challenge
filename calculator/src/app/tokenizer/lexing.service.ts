@@ -26,6 +26,10 @@ export abstract class Binary_Operator_Node extends Node{
     left_child?:Node;
     right_child?:Node;
     //decide who the children are of a bin node
+    /*
+    1+1
+    
+    */
     apply_precedence():Binary_Operator_Node {
         console.log("\nthis.left_child!: ", this.left_child!);
         if (this.left_child!.precedence > this.precedence){
@@ -124,11 +128,9 @@ export function lex0 (tokens : Token[]) : Node {
                     //erik how do i not reach this for 1+2
                     console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
                 }
-            } else if (wl[wl.length-1] instanceof Neg_Node){
-                (wl[wl.length-1] as Neg_Node).only_child = i_as_node;
-
             } else if (wl[wl.length-1] instanceof Unary_Operator_Node){
-                wl.push(i_as_node);
+                (wl[wl.length-1] as Unary_Operator_Node).only_child = i_as_node;
+                wl[wl.length-1].complete_expression = true;
             }
             else{ //is num... 2 nums adjacent is bad
                 console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
@@ -143,7 +145,7 @@ export function lex0 (tokens : Token[]) : Node {
                 to_push.only_child = should_be_a_complete_expression;
                 to_push.complete_expression = true;
                 wl.push(to_push);
-                //eg 1+(1) is not 1+1 in the wl; must consolidate the +
+                //eg 1+(1) is now 1+1 in the wl; must consolidate the +
                 if(wl.length > 1){
                     for (let i:number = 0; i < wl.length; i++){
                         if(wl[i] instanceof Binary_Operator_Node && !wl[i].complete_expression){
@@ -153,8 +155,9 @@ export function lex0 (tokens : Token[]) : Node {
                             wl.splice(i - 1, 1);
                             //consider how the indecies change
                             i -= 1;
-                            //remove the right child for wl
+                            //remove the right child from wl
                             wl.splice(i + 1, 1);
+                            wl[i].complete_expression = true;(1)+(2)+(3)
                         }
                     }
                 }
