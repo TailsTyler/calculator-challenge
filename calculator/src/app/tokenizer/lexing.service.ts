@@ -27,8 +27,9 @@ export abstract class Binary_Operator_Node extends Node{
     right_child?:Node;
     //decide who the children are of a bin node
     /*
-    1+1
+    1<+>1
     
+
     */
     apply_precedence():Binary_Operator_Node {
         console.log("\nthis.left_child!: ", this.left_child!);
