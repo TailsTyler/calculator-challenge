@@ -169,17 +169,17 @@ export function lex0 (tokens : Token[]) : Node {
                         else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression && wl[i+1] && wl[i+1].complete_expression){
                             (wl[i] as Unary_Operator_Node).only_child = wl[i+1];
                             wl.splice(i + 1, 1);
-                            //consider how the indecies change
-                            i -= 1;
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
-                            wl[i].complete_expression = true;(1)+(2)+(3);
-                            
+                            wl[i].complete_expression = true;
+                            i+=1;
+                        }
                     }
+
                 }
-            }
-            else {
-                console.log('Error on ")"');
+                else {
+                    console.log('Error on ")"');
+                }
             }
         }
         else{
