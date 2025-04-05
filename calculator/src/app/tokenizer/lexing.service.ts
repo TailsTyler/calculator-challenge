@@ -112,40 +112,44 @@ export function lex0 (tokens : Token[]) : Node {
     for (let i:number = 0; i < tokens_again.length; i++) {
         if (tokens_again[i] instanceof Num_Token) {
             let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
-            if (wl.length == 0){
-                wl.push(i_as_node);
-            } else if (wl[wl.length-1] instanceof Binary_Operator_Node){
-                if (wl.length >= 2 && wl[wl.length-2].complete_expression){
-                    let temp = wl.pop()!;
-                    (temp as Binary_Operator_Node).left_child = wl.pop();
-                    (temp as Binary_Operator_Node).right_child = i_as_node;
-                    temp.complete_expression = true;
-                    wl.push(temp);
-                    console.log("\ntemp before apply precedence: ", temp);
-                    (temp as Binary_Operator_Node).apply_precedence();
-                    console.log("\ntemp after apply precedence: ", temp);
-                }
-                else{
-                    //erik how do i not reach this for 1+2
-                    console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
-                }
-            } else if (wl[wl.length-1] instanceof Neg_Node && i_as_node.complete_expression){
-                (wl[wl.length-1] as Unary_Operator_Node).only_child = i_as_node;
-                wl[wl.length-1].complete_expression = true;
-                let j = 2;
-                while (wl[wl.length-j] instanceof Neg_Node && wl[wl.length-j+1].complete_expression){
-                    (wl[wl.length-j] as Unary_Operator_Node).only_child = wl[wl.length-j+1];
-                    wl[wl.length-j].complete_expression = true;
-                    let temp = wl.pop();
-                    j+=1;
-                }
+            wl.push(i_as_node);
+            if (wl.length == 1){
+                continue;
             }
-            else if (wl[wl.length-1] instanceof Unary_Operator_Node){
-                wl.push(i_as_node);
-            }
-            else{ //is num... 2 nums adjacent is bad
-                console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
-                    "\n here is the i_as_node: ", i_as_node);
+            else {
+                let look_for_incomplete_expressions_in_wl = true;
+                let past_first_iteration = false;
+                while(look_for_incomplete_expressions_in_wl){
+                    if (wl[wl.length-2] instanceof Binary_Operator_Node){
+                        if (wl.length >= 3 && wl[wl.length-3].complete_expression){
+                            let to_become_right_child = wl.pop();
+                            let x = wl.pop()!;
+                            (x as Binary_Operator_Node).right_child = to_become_right_child;
+                            (x as Binary_Operator_Node).left_child = wl.pop();
+                            x.complete_expression = true;
+                            wl.push(x);
+                            (x as Binary_Operator_Node).apply_precedence();
+                        }
+                        else{
+                            //erik how do i not reach this for 1+2
+                            console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
+                        }
+                    } else if (wl[wl.length-2] instanceof Neg_Node && wl[wl.length-1].complete_expression){
+                        (wl[wl.length-2] as Unary_Operator_Node).only_child = wl[wl.length-1];
+                        wl[wl.length-2].complete_expression = true;
+                        wl.pop();
+                    }
+                    else if (wl[wl.length-2] instanceof Unary_Operator_Node){
+                        wl.push(wl[wl.length-1]);
+                        look_for_incomplete_expressions_in_wl = false;
+                    }
+                    else{ //is num... 2 nums adjacent is bad
+                        // console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
+                        //     "\n here is the i_as_node: ", i_as_node);
+                        look_for_incomplete_expressions_in_wl = false;
+                    }
+                    past_first_iteration = true;
+                }
             }
         }
         else if (tokens_again[i] instanceof Closing_Token){
