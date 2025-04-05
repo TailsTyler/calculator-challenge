@@ -129,9 +129,12 @@ export function lex0 (tokens : Token[]) : Node {
                     //erik how do i not reach this for 1+2
                     console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
                 }
-            } else if (wl[wl.length-1] instanceof Unary_Operator_Node){
+            } else if (wl[wl.length-1] instanceof Neg_Node && i_as_node.complete_expression){
                 (wl[wl.length-1] as Unary_Operator_Node).only_child = i_as_node;
                 wl[wl.length-1].complete_expression = true;
+            }
+            else if (wl[wl.length-1] instanceof Unary_Operator_Node){
+                wl.push(i_as_node);
             }
             else{ //is num... 2 nums adjacent is bad
                 console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
@@ -160,6 +163,16 @@ export function lex0 (tokens : Token[]) : Node {
                             wl.splice(i + 1, 1);
                             wl[i].complete_expression = true;(1)+(2)+(3)
                         }
+                        else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression){
+                            (wl[i] as Unary_Operator_Node).only_child = wl[i+1];
+                            (wl[i] as Binary_Operator_Node).right_child = wl[i+1];
+                            //remove the left child from wl
+                            wl.splice(i - 1, 1);
+                            //consider how the indecies change
+                            i -= 1;
+                            //remove the right child from wl
+                            wl.splice(i + 1, 1);
+                            wl[i].complete_expression = true;(1)+(2)+(3)
                     }
                 }
             }
