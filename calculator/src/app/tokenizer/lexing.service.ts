@@ -151,7 +151,8 @@ export function lex0 (tokens : Token[]) : Node {
                 wl.push(to_push);
                 //eg 1+(1) is now 1+1 in the wl; must consolidate the +
                 if(wl.length > 1){
-                    for (let i:number = 0; i < wl.length; i++){
+                    let i = 0;
+                    while (wl[i]){
                         if(wl[i] instanceof Binary_Operator_Node && !wl[i].complete_expression){
                             (wl[i] as Binary_Operator_Node).left_child = wl[i-1];
                             (wl[i] as Binary_Operator_Node).right_child = wl[i+1];
@@ -161,18 +162,19 @@ export function lex0 (tokens : Token[]) : Node {
                             i -= 1;
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
-                            wl[i].complete_expression = true;(1)+(2)+(3)
+                            wl[i].complete_expression = true;
+                            i+=1;
                         }
-                        else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression){
+                        //this section addresses eg -(1)
+                        else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression && wl[i+1] && wl[i+1].complete_expression){
                             (wl[i] as Unary_Operator_Node).only_child = wl[i+1];
-                            (wl[i] as Binary_Operator_Node).right_child = wl[i+1];
-                            //remove the left child from wl
-                            wl.splice(i - 1, 1);
+                            wl.splice(i + 1, 1);
                             //consider how the indecies change
                             i -= 1;
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
-                            wl[i].complete_expression = true;(1)+(2)+(3)
+                            wl[i].complete_expression = true;(1)+(2)+(3);
+                            
                     }
                 }
             }
