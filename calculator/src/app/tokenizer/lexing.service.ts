@@ -132,6 +132,13 @@ export function lex0 (tokens : Token[]) : Node {
             } else if (wl[wl.length-1] instanceof Neg_Node && i_as_node.complete_expression){
                 (wl[wl.length-1] as Unary_Operator_Node).only_child = i_as_node;
                 wl[wl.length-1].complete_expression = true;
+                let j = 2;
+                while (wl[wl.length-j] instanceof Neg_Node && wl[wl.length-j+1].complete_expression){
+                    (wl[wl.length-j] as Unary_Operator_Node).only_child = wl[wl.length-j+1];
+                    wl[wl.length-j].complete_expression = true;
+                    let temp = wl.pop();
+                    j+=1;
+                }
             }
             else if (wl[wl.length-1] instanceof Unary_Operator_Node){
                 wl.push(i_as_node);
@@ -163,7 +170,6 @@ export function lex0 (tokens : Token[]) : Node {
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
                             wl[i].complete_expression = true;
-                            i+=1;
                         }
                         //this section addresses eg -(1)
                         else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression && wl[i+1] && wl[i+1].complete_expression){
@@ -172,8 +178,8 @@ export function lex0 (tokens : Token[]) : Node {
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
                             wl[i].complete_expression = true;
-                            i+=1;
                         }
+                        i+=1;
                     }
 
                 }
