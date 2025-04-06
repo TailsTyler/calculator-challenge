@@ -1,5 +1,6 @@
 import { Add_Token, Div_Token, Exp_Token, Mul_Token, Num_Token, Opening_Token, Closing_Token, Sub_Token, Token, Trig_Token } from "./tokenizer.service";
 
+
 export abstract class Node{
     abstract precedence:number;
     complete_expression = false;

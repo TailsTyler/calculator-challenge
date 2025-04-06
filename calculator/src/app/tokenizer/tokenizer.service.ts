@@ -14,12 +14,16 @@ export class Num_Token extends Token {
         this.value = value;
     }
 }
+import { MessageService as Chronicle } from './message.service';
+import { MessageService } from 'primeng/api';
 
 //identify chars as symbols
 export function tokenize (math_expression : string) : Token[] {
     let tokens : Token[] = []
     let number_expression : RegExp = new RegExp('^\\d+(\\.\\d+)?');
-    math_expression = math_expression.trim()
+    math_expression = math_expression.trim();
+    let l = 0;
+    let r = 0;
     while (math_expression.length > 0) {
         if (number_expression.test(math_expression)){
             let a  = number_expression.exec(math_expression)![0];
@@ -28,9 +32,19 @@ export function tokenize (math_expression : string) : Token[] {
         } else if (math_expression[0] == "("){
             tokens.push(new Opening_Token);
             math_expression = math_expression.substring(1);
+            tokens.forEach(item => {
+            if (item === '(') {
+                l++;
+            }
+            });
         } else if (math_expression[0] == ")"){
             tokens.push(new Closing_Token);
             math_expression = math_expression.substring(1);
+            tokens.forEach(item => {
+            if (item === ')') {
+                r++;
+            }
+            });
         } else if (math_expression[0] == "+"){
             tokens.push(new Add_Token);
             math_expression = math_expression.substring(1);
@@ -54,27 +68,12 @@ export function tokenize (math_expression : string) : Token[] {
         }
         math_expression = math_expression.trim();
     }
-    // let l = 0;
-    // let r = 0;
-
-    // tokens.forEach(item => {
-    // if (item === '(') {
-    //     l++;
-    // }
-    // });
-    // tokens.forEach(item => {
-    // if (item === ')') {
-    //     r++;
-    // }
-    // });
-
-    // if (tokens) {
-    //     this.messageService.add({
-    //         key: 'br',
-    //         severity: 'info',
-    //         detail: 'The Game has not yet begun. Create a Person.',
-    //     });
-    //     return;
-    // }
+    if (tokens) {
+        messageService.add({
+            key: 'br',
+            severity: 'info',
+            detail: 'Have the same amount of "(" as ")".',
+    });
+    }
     return tokens;
 }
