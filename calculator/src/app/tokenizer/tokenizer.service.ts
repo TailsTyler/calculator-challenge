@@ -54,5 +54,27 @@ export function tokenize (math_expression : string) : Token[] {
         }
         math_expression = math_expression.trim();
     }
+    // let l = 0;
+    // let r = 0;
+
+    // tokens.forEach(item => {
+    // if (item === '(') {
+    //     l++;
+    // }
+    // });
+    // tokens.forEach(item => {
+    // if (item === ')') {
+    //     r++;
+    // }
+    // });
+
+    // if (tokens) {
+    //     this.messageService.add({
+    //         key: 'br',
+    //         severity: 'info',
+    //         detail: 'The Game has not yet begun. Create a Person.',
+    //     });
+    //     return;
+    // }
     return tokens;
 }
