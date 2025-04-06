@@ -184,10 +184,6 @@ export function lex0 (tokens : Token[]) : Node {
                         }
                         i+=1;
                     }
-
-                }
-                else {
-                    console.log('Error on ")"');
                 }
             }
         }
@@ -219,6 +215,9 @@ export function lex0 (tokens : Token[]) : Node {
                 wl.push(new Paren_Node()); 
             }
         }
+    }
+    if(wl.length != 1){
+        console.log("\nNot exactly one tree treturned: maybe baf parentheses")
     }
     return wl[0];
 }
