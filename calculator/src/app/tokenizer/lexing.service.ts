@@ -118,7 +118,6 @@ export function lex0 (tokens : Token[]) : Node {
             }
             else {
                 let look_for_incomplete_expressions_in_wl = true;
-                let past_first_iteration = false;
                 while(look_for_incomplete_expressions_in_wl){
                     if (wl[wl.length-2] instanceof Binary_Operator_Node){
                         if (wl.length >= 3 && wl[wl.length-3].complete_expression){
@@ -139,16 +138,16 @@ export function lex0 (tokens : Token[]) : Node {
                         wl[wl.length-2].complete_expression = true;
                         wl.pop();
                     }
-                    else if (wl[wl.length-2] instanceof Unary_Operator_Node){
-                        wl.push(wl[wl.length-1]);
-                        look_for_incomplete_expressions_in_wl = false;
-                    }
+                    // else if (wl[wl.length-2] instanceof Paren_Node && wl[wl.length-1].complete_expression){
+                    //     (wl[wl.length-2] as Unary_Operator_Node).only_child = wl[wl.length-1];
+                    //     wl[wl.length-2].complete_expression = true;
+                    //     wl.pop();
+                    // }
                     else{ //is num... 2 nums adjacent is bad
                         // console.log("\nThese 2 nums are next to each other in the wl! Not good. Here is the wl: ", wl,
                         //     "\n here is the i_as_node: ", i_as_node);
                         look_for_incomplete_expressions_in_wl = false;
                     }
-                    past_first_iteration = true;
                 }
             }
         }
