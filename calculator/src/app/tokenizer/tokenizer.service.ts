@@ -69,7 +69,7 @@ export function tokenize (math_expression : string) : Token[] {
         math_expression = math_expression.trim();
     }
     if (tokens) {
-        messageService.add({
+        MessageService.add(detail){
             key: 'br',
             severity: 'info',
             detail: 'Have the same amount of "(" as ")".',
