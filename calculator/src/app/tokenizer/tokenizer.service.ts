@@ -69,11 +69,12 @@ export function tokenize (math_expression : string) : Token[] {
         math_expression = math_expression.trim();
     }
     if (tokens) {
-        MessageService.add(detail){
+        let m = new MessageService;
+        m.add({
             key: 'br',
             severity: 'info',
-            detail: 'Have the same amount of "(" as ")".',
-    });
+            detail: 'The Game has not yet begun. Create a Person.',
+          });
     }
     return tokens;
 }
