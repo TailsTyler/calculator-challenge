@@ -14,8 +14,30 @@ export class Num_Token extends Token {
         this.value = value;
     }
 }
-import { MessageService as Chronicle } from './message.service';
-import { MessageService } from 'primeng/api';
+// import { MessageService as Chronicle } from './message.service';
+// import { MessageService } from 'primeng/api';
+
+import { Component } from "@angular/core"; 
+import { MessageService } from "primeng/api"; 
+
+@Component({ 
+selector: "app-root", 
+templateUrl: "./app.component.html", 
+providers: [MessageService], 
+}) 
+export class AppComponent { 
+constructor(private messageService: MessageService) {} 
+
+popUpServces() { 
+	this.messageService.add({ 
+	severity: "error", 
+	summary: "GeeksforGeeks", 
+	detail: "Error Service Message", 
+	}); 
+} 
+}
+
+
 
 //identify chars as symbols
 export function tokenize (math_expression : string) : Token[] {
