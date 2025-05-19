@@ -104,10 +104,6 @@
       }
     }
   },
-<<<<<<< HEAD
-=======
-  "defaultProject": "calculator",
->>>>>>> d1034f6e2f03bbe29bdf1cbf62c611141af30d05
   "cli": {
     "analytics": false
   }
