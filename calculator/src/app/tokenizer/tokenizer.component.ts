@@ -19,7 +19,19 @@ export class TokenizerComponent implements OnInit {
 
   
   calculate(math_expression:string){
-    this.value = lex0(tokenize(math_expression)).eval().value;
+    let tokens = tokenize(math_expression);
+    if (typeof tokens != "string"){
+      let lex = lex0(tokens);
+      if(typeof lex != "string"){
+        this.value = lex.eval().value;
+      }
+      else{
+        this.value = lex;
+      }
+    }
+    else{
+      this.value = tokens;
+    }
   }
 
 }

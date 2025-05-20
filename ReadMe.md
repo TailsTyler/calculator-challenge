@@ -8,14 +8,6 @@ display the ast on the site
 tests to pass:
     unknown status:
     
-        3-2-1
-        -1
-        --1
-        --1--1
-        27^(1/3)
-        1-1-1
-        
-        
     were working:
         (1)+(1)+(1)
         -(1)
@@ -24,3 +16,32 @@ tests to pass:
         --(1)
         1-(-1)
         1+(1)
+        3-2-1
+        -1
+        --1
+        --1--1
+        27^(1/3)
+        1-1-1
+        
+
+todo:
+    testing suite!
+    merge branch non destructively??
+    how can the if statements here be leaned up?:
+          calculate(math_expression:string){
+            let tokens = tokenize(math_expression);
+            if (typeof tokens != "string"){
+            let lex = lex0(tokens);
+            if(typeof lex != "string"){
+                this.value = lex.eval().value;
+            }
+            else{
+                this.value = lex;
+            }
+            }
+            else{
+            this.value = tokens;
+            }
+        }
+    add trig?
+

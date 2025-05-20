@@ -106,12 +106,11 @@ export class Sub_Node extends Binary_Operator_Node{
 }
 
 //tokens to ast
-export function lex0 (tokens : Token[]) : Node {
-    let tokens_again = tokens;
+export function lex0 (tokens : Token[]) : Node | string {
     let wl:Node[] = [];
-    for (let i:number = 0; i < tokens_again.length; i++) {
-        if (tokens_again[i] instanceof Num_Token) {
-            let i_as_node = new Num_Node((tokens_again[i] as Num_Token).value);
+    for (let i:number = 0; i < tokens.length; i++) {
+        if (tokens[i] instanceof Num_Token) {
+            let i_as_node = new Num_Node((tokens[i] as Num_Token).value);
             wl.push(i_as_node);
             if (wl.length == 1){
                 continue;
@@ -131,7 +130,7 @@ export function lex0 (tokens : Token[]) : Node {
                         }
                         else{
                             //erik how do i not reach this for 1+2
-                            console.log("\n the i_as_node is a num but the wl.length < 2 or not wl[-2].complete_expression");
+                            return("There seems to be a typo")
                         }
                     } else if (wl[wl.length-2] instanceof Neg_Node && wl[wl.length-1].complete_expression){
                         (wl[wl.length-2] as Unary_Operator_Node).only_child = wl[wl.length-1];
@@ -151,7 +150,7 @@ export function lex0 (tokens : Token[]) : Node {
                 }
             }
         }
-        else if (tokens_again[i] instanceof Closing_Token){
+        else if (tokens[i] instanceof Closing_Token){
             let should_be_a_complete_expression = wl.pop();
             let should_be_a_opener = wl.pop();
             if (should_be_a_complete_expression?.complete_expression && should_be_a_opener instanceof Paren_Node) {
@@ -192,7 +191,7 @@ export function lex0 (tokens : Token[]) : Node {
             }
         }
         else{
-            if (tokens_again[i] instanceof Sub_Token) {
+            if (tokens[i] instanceof Sub_Token) {
                 //the lexer must identify Sub_Tokens as either actual sub nodes, or, instead, as neg nodes
                 //if there is a complete expression to the left, it's a sub
                 //eg (complex but complete expression)-1
@@ -205,20 +204,23 @@ export function lex0 (tokens : Token[]) : Node {
                 //and if there is nothing to the left, it's a neg
                 //eg -1+2 = 1
                 wl.push(new Neg_Node()); 
-            } else if (tokens_again[i] instanceof Add_Token) {
+            } else if (tokens[i] instanceof Add_Token) {
                 wl.push(new Add_Node()); 
-            } else if (tokens_again[i] instanceof Mul_Token) {
+            } else if (tokens[i] instanceof Mul_Token) {
                 wl.push(new Mul_Node()); 
-            } else if (tokens_again[i] instanceof Div_Token) {
+            } else if (tokens[i] instanceof Div_Token) {
                 wl.push(new Div_Node()); 
-            } else if (tokens_again[i] instanceof Exp_Token) {
+            } else if (tokens[i] instanceof Exp_Token) {
                 wl.push(new Exp_Node()); 
-            // } else if (tokens_again[i] instanceof Trig_Token) {
+            // } else if (tokens[i] instanceof Trig_Token) {
             //     wl.push(new Trig_Node()); 
-            } else if (tokens_again[i] instanceof Opening_Token) {
+            } else if (tokens[i] instanceof Opening_Token) {
                 wl.push(new Paren_Node()); 
             }
         }
+    }
+    if(wl.length > 1){
+        return "There seems to be a typo";
     }
     return wl[0];
 }

@@ -16,10 +16,12 @@ export class Num_Token extends Token {
 }
 
 //identify chars as symbols
-export function tokenize (math_expression : string) : Token[] {
+export function tokenize (math_expression : string) : Token[] | string {
     let tokens : Token[] = []
     let number_expression : RegExp = new RegExp('^\\d+(\\.\\d+)?');
     math_expression = math_expression.trim()
+    let opening_tokens = 0;
+    let closing_tokens = 0;    
     while (math_expression.length > 0) {
         if (number_expression.test(math_expression)){
             let a  = number_expression.exec(math_expression)![0];
@@ -28,9 +30,11 @@ export function tokenize (math_expression : string) : Token[] {
         } else if (math_expression[0] == "("){
             tokens.push(new Opening_Token);
             math_expression = math_expression.substring(1);
+            opening_tokens++;
         } else if (math_expression[0] == ")"){
             tokens.push(new Closing_Token);
             math_expression = math_expression.substring(1);
+            closing_tokens++;
         } else if (math_expression[0] == "+"){
             tokens.push(new Add_Token);
             math_expression = math_expression.substring(1);
@@ -53,6 +57,13 @@ export function tokenize (math_expression : string) : Token[] {
             math_expression = math_expression.substring(1);
         }
         math_expression = math_expression.trim();
+        
+    }
+    let num_opening_tokens_more_than_closing = opening_tokens - closing_tokens;
+    if (num_opening_tokens_more_than_closing != 0){
+        let error = "You have " + num_opening_tokens_more_than_closing + " more opening parentheses than closing ones. Make the amounts match.";
+        console.error(error);
+        return error;
     }
     return tokens;
 }
