@@ -159,10 +159,10 @@ export function lex0 (tokens : Token[]) : Node {
                 to_push.only_child = should_be_a_complete_expression;
                 to_push.complete_expression = true;
                 wl.push(to_push);
-                //eg 1+(1) is now 1+1 in the wl; must consolidate the +
+                //eg 1+(1) is now 1+c in the wl; must consolidate the +
                 if(wl.length > 1){
-                    let i = 0;
-                    while (wl[i]){
+                    let i = wl.length - 2; //second to last element
+                    while (wl.length >= 2){
                         if(wl[i] instanceof Binary_Operator_Node && !wl[i].complete_expression){
                             (wl[i] as Binary_Operator_Node).left_child = wl[i-1];
                             (wl[i] as Binary_Operator_Node).right_child = wl[i+1];
@@ -174,13 +174,13 @@ export function lex0 (tokens : Token[]) : Node {
                             wl.splice(i + 1, 1);
                             wl[i].complete_expression = true;
                         }
-                        //this section addresses eg -(1)
+                        //this section addresses eg when -(1) is now -c
                         else if (wl[i] instanceof Neg_Node && !wl[i].complete_expression && wl[i+1] && wl[i+1].complete_expression){
                             (wl[i] as Unary_Operator_Node).only_child = wl[i+1];
-                            wl.splice(i + 1, 1);
                             //remove the right child from wl
                             wl.splice(i + 1, 1);
                             wl[i].complete_expression = true;
+                            i-=2;
                         }
                         i+=1;
                     }
