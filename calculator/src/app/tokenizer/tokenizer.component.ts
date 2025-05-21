@@ -18,7 +18,7 @@ export class TokenizerComponent implements OnInit {
   }
 
   
-  calculate(math_expression:string){
+  calculate(math_expression:string) : string | number | Node{
     let tokens = tokenize(math_expression);
     if (typeof tokens != "string"){
       let lex = lex0(tokens);
@@ -32,6 +32,7 @@ export class TokenizerComponent implements OnInit {
     else{
       this.value = tokens;
     }
+    return this.value;
   }
 
 }

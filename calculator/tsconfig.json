@@ -22,6 +22,21 @@
       "es2020",
       "dom"
     ]
+
+    ////this is what the jest tutorial asked for:
+    ////https://www.geeksforgeeks.org/how-to-test-typescript-with-jest/#
+
+//     {
+//     "compilerOptions": {
+//         "target": "ES6",
+//         "module": "commonjs",
+//         "strict": true,
+//         "esModuleInterop": true,
+//         "skipLibCheck": true,
+//         "forceConsistentCasingInFileNames": true
+//     }
+// }
+
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
