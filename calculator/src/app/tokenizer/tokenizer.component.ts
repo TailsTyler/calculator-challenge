@@ -17,22 +17,17 @@ export class TokenizerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
-  calculate(math_expression:string) : string | number | Node{
+  calculate(math_expression:string) : void{
     let tokens = tokenize(math_expression);
     if (typeof tokens != "string"){
       let lex = lex0(tokens);
-      if(typeof lex != "string"){
+    if(typeof lex != "string"){
         this.value = lex.eval().value;
-      }
-      else{
+      } else {
         this.value = lex;
       }
-    }
-    else{
+    } else {
       this.value = tokens;
     }
-    return this.value;
-  }
-
+    }
 }

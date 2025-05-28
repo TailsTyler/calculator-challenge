@@ -2,5 +2,8 @@
   "dependencies": {
     "@angular/cli": "^16.0.2",
     "ng": "^0.0.0"
+  },
+  "devDependencies": {
+    "ts-jest": "^29.3.4"
   }
 }
