@@ -4,6 +4,8 @@
     "ng": "^0.0.0"
   },
   "devDependencies": {
-    "ts-jest": "^29.3.4"
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.8.3"
   }
 }

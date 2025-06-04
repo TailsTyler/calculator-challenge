@@ -5,6 +5,13 @@ there is another, nested readme
 
 display the ast on the site
 
+for testing run npx jest sanity-check from root
+
+npm commands to run
+    npm install --save-dev jest ts-jest typescript
+
+
+
 tests to pass:
     unknown status:
     
