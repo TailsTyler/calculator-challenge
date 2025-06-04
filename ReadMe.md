@@ -9,6 +9,10 @@ for testing run npx jest sanity-check from root
 
 npm commands to run
     npm install --save-dev jest ts-jest typescript
+    npm i --save-dev @types/jest
+    npm install --save-dev jest-environment-jsdom
+
+
 
 
 

@@ -78,7 +78,8 @@
       "dom"
     ],
     "esModuleInterop": true,  // Add this line for compatibility with CommonJS
-    "skipLibCheck": true      // Add this line to skip type checking of declaration files
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true   // Add this line to skip type checking of declaration files
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -88,5 +89,6 @@
   },
   "include": ["src/**/*.ts"],
 "exclude": ["node_modules"]
+
 
 }
