@@ -11,6 +11,12 @@ npm commands to run
     npm install --save-dev jest ts-jest typescript
     npm i --save-dev @types/jest
     npm install --save-dev jest-environment-jsdom
+    npm install --save-dev jest jest-preset-angular @types/jest ts-jest jest-environment-jsdom zone.js
+
+for using vitest which is newer, instead of jest
+    npm install -D vitest
+    npm run test
+
 
 
 

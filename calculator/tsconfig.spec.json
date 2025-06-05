@@ -6,7 +6,9 @@
     "types": [
       "jasmine",
       "jest"
-    ]
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
   },
   "files": [
     "src/test.ts",
