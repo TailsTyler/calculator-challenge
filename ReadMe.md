@@ -20,7 +20,8 @@ for using vitest which is newer, instead of jest
 
 
 
-
+testing goal:
+    "Positive, zero, and negative values fed into every operation. Then compose every operation with every other operation"
 
 tests to pass:
     unknown status:
