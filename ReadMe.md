@@ -16,6 +16,9 @@ npm commands to run
 for using vitest which is newer, instead of jest
     npm install -D vitest
     npm run test
+    npm install zone.js --save-dev
+    npm install --save-dev happy-dom
+
 
 
 

@@ -1,8 +1,10 @@
+import 'zone.js';
+import 'zone.js/testing';
 import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { expect, test, describe, beforeEach, it, beforeAll} from 'vitest';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { describe, beforeAll, beforeEach, it, expect } from 'vitest';
 
 beforeAll(() => {
   TestBed.initTestEnvironment(
@@ -14,12 +16,8 @@ beforeAll(() => {
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterTestingModule],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
