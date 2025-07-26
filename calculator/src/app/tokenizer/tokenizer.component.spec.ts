@@ -5,7 +5,7 @@ import { expect, test } from 'vitest';
 
 let component = new TokenizerComponent();
 
-//inital test witho old code commented out
+//initial test with old code commented out
 test('adds 1 + 2 to equal 3', () => {
   // expect(component.calculate("1+2")).toBe(3);
    component.calculate("1+2");
@@ -150,6 +150,27 @@ test('1/0', () => {
 test('1/1', () => {
    component.calculate("1/1");
   expect(component.value).toBe(1);
+})
+
+//() section
+test('(1)', () => {
+   component.calculate("(1)");
+  expect(component.value).toBe(1);
+})
+
+test('-(1)', () => {
+   component.calculate("-(1)");
+  expect(component.value).toBe(-1);
+})
+
+test('(1)-(1)', () => {
+   component.calculate("(1)-(1)");
+  expect(component.value).toBe(0);
+})
+
+test('(((1))-(1))', () => {
+   component.calculate("(((1))-(1))");
+  expect(component.value).toBe(0);
 })
 
 
