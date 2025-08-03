@@ -15,6 +15,7 @@ import { TokenizerComponent } from './tokenizer/tokenizer.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  // bootstrap: [AppComponent]
+  bootstrap: [TokenizerComponent]
 })
 export class AppModule { }
